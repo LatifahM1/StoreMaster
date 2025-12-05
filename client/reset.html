@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reset Password</title>
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+
+    <div class="card">
+        <img src="logo.svg" class="logo">
+
+        <h2 style="text-align:center;">Enter Your New Password</h2>
+
+        <form id="resetForm">
+
+            <label>Email</label>
+            <input type="email" id="reset_email" required>
+
+            <label>Reset Code</label>
+            <input type="text" id="reset_code" required>
+
+            <label>New Password</label>
+            <input type="password" id="reset_new_password" required>
+
+            <!-- IMPORTANT: زر submit -->
+            <button type="submit" class="btn">Reset Password</button>
+
+            <div class="links">
+                <p><a href="login.html">Back to Login</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
