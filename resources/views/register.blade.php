@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Account - StoreMaster</title>
-    <link rel="stylesheet" href="auth.css">
+
+    {{-- Load CSS --}}
+    <link rel="stylesheet" href="{{ asset('auth.css') }}">
 </head>
 <body>
 
     <div class="card">
-        <img src="logo.svg" class="logo">
+        <img src="{{ asset('logo.svg') }}" class="logo">
 
         <h2 style="text-align:center;">Create Account</h2>
 
@@ -23,15 +25,17 @@
             <label>Password</label>
             <input type="password" id="reg_password" required>
 
-            <!-- IMPORTANT: type="submit" -->
             <button type="submit" class="btn">Create Account</button>
 
             <div class="links">
-                <p>Already have an account? <a href="login.html">Login</a></p>
+                <p>Already have an account? 
+                    <a href="{{ url('/login') }}">Login</a>
+                </p>
             </div>
         </form>
     </div>
 
-    <script src="app.js"></script>
+    {{-- Load JS --}}
+    <script src="{{ asset('app.js') }}"></script>
 </body>
 </html>

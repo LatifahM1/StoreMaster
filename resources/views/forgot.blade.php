@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Forgot Password</title>
-    <link rel="stylesheet" href="auth.css">
+
+    <!-- استخدام PHP لعرض الأصول -->
+  <link rel="stylesheet" href="{{ asset('auth.css') }}">
 </head>
+
 <body>
 
     <div class="card">
-        <img src="logo.svg" class="logo">
+        <img src="<?php echo asset('logo.svg'); ?>" class="logo">
 
         <h2 style="text-align:center;">Reset Your Password</h2>
 
@@ -17,15 +20,16 @@
             <label>Email</label>
             <input type="email" id="forgot_email" required>
 
-            <!-- IMPORTANT: type="submit" -->
             <button type="submit" class="btn">Send Reset Code</button>
 
             <div class="links">
-                <p><a href="login.html">Back to Login</a></p>
+                <p><a href="<?php echo url('/login'); ?>">Back to Login</a></p>
             </div>
+
         </form>
     </div>
 
-    <script src="app.js"></script>
+    <script src="{{ asset('app.js') }}"></script>
+
 </body>
 </html>

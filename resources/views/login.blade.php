@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Login - StoreMaster</title>
-    <link rel="stylesheet" href="auth.css">
+
+    <!-- تحميل ملف CSS -->
+    <link rel="stylesheet" href="{{ asset('auth.css') }}">
 </head>
+
 <body>
 
     <div class="card">
-        <img src="logo.svg" class="logo">
+        <img src="{{ asset('logo.svg') }}" class="logo">
 
         <h2 style="text-align:center;">Welcome Back 👋</h2>
 
         <form id="loginForm">
-            
+
             <label>Email</label>
             <input id="login_email" type="email" required>
 
@@ -23,12 +26,20 @@
             <button type="submit" class="btn">Login</button>
 
             <div class="links">
-                <p>Don’t have an account? <a href="register.html">Create one</a></p>
-                <p><a href="forgot.html">Forgot password?</a></p>
+                <p>Don’t have an account? 
+                    <a href="{{ url('/register') }}">Create one</a>
+                </p>
+
+                <p>
+                    <a href="{{ url('/forgot') }}">Forgot password?</a>
+                </p>
             </div>
+
         </form>
     </div>
 
-    <script src="app.js"></script>
+    <!-- تحميل ملف الجافاسكربت -->
+    <script src="{{ asset('app.js') }}"></script>
+
 </body>
 </html>

@@ -2,32 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>StoreMaster Dashboard</title>
-    <link rel="stylesheet" href="dashboard.css">
-
-
-    <!-- PAGE PROTECTION -->
-    <script>
-        const token = localStorage.getItem("token");
-        if (!token) window.location.href = "login.html";
-    </script>
-
+    <link rel="stylesheet" href="{{ asset('dashboard.css') }}">
 </head>
 <body>
 
     <!-- NAVBAR -->
     <nav class="navbar">
         <h1>StoreMaster</h1>
-
         <div class="nav-actions">
             <span id="userEmail"></span>
-            <a href="add.html" class="btn">+ Add Product</a>
+            <a href="{{ url('/add') }}" class="btn">+ Add Product</a>
             <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
     </nav>
 
     <div class="container">
-
         <h2>Products</h2>
 
         <!-- SEARCH -->
@@ -55,10 +46,10 @@
             </select>
         </div>
 
-        <!-- PRODUCTS GRID -->
+        <!-- PRODUCT GRID -->
         <div id="product-list" class="grid"></div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="{{ asset('app.js') }}"></script>
 </body>
 </html>

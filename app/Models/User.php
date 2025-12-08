@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str; // ✅ أضف هذا في الأعلى
 
 class User extends Authenticatable
 {
@@ -31,6 +31,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'api_token', // ✅ أضف هذا
     ];
 
     /**
@@ -44,5 +45,29 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    
+    // ✅ أضف هذه الدالة داخل الـ class
+    public function createToken($name)
+    {
+        $token = Str::random(60);
+        
+        $this->api_token = hash('sha256', $token);
+        $this->save();
+        
+        // إرجاع كائن يحتوي على التوكن
+        return new class($token) {
+            protected $plainTextToken;
+            
+            public function __construct($plainTextToken)
+            {
+                $this->plainTextToken = $plainTextToken;
+            }
+            
+            public function plainTextToken()
+            {
+                return $this->plainTextToken;
+            }
+        };
     }
 }

@@ -1,97 +1,82 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // GET all products
-    public function index()
+    // دالة مساعدة للتحقق من التوكن
+    private function verifyToken($request)
     {
-        return response()->json(Product::all(), 200);
+        $token = $request->bearerToken();
+        if (!$token) return null;
+        
+        return User::where('api_token', hash('sha256', $token))->first();
     }
-
-    // GET product by ID
-    public function show($id)
+    
+    public function index(Request $request)
     {
-        $product = Product::find($id);
-
-        if (!$product) {
-            return response()->json(['message' => 'Product not found'], 404);
+        $user = $this->verifyToken($request);
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
-
-        return response()->json($product, 200);
+        
+        return Product::all();
     }
-
-    // POST create new product
+    
     public function store(Request $request)
     {
+        $user = $this->verifyToken($request);
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+        
         $request->validate([
             'name' => 'required',
             'category' => 'required',
-            'price' => 'required|numeric',
-            'description' => 'nullable',
-            'image_url' => 'nullable'
+            'price' => 'required|numeric'
         ]);
-
-        $product = Product::create([
-            'name' => $request->name,
-            'category' => $request->category,
-            'price' => $request->price,
-            'description' => $request->description,
-            'image_url' => $request->image_url,
-        ]);
-
+        
+        $product = Product::create($request->all());
+        
         return response()->json([
-            'message' => 'Product added successfully!',
-            'data' => $product
+            'message' => 'Product created successfully',
+            'product' => $product
         ], 201);
     }
-
-    // PUT update product
+    
+    public function show(Request $request, $id)
+    {
+        $user = $this->verifyToken($request);
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+        
+        return Product::findOrFail($id);
+    }
+    
     public function update(Request $request, $id)
     {
-        $product = Product::find($id);
-
-        if (!$product) {
-            return response()->json(['message' => 'Product not found'], 404);
+        $user = $this->verifyToken($request);
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
-
-        $request->validate([
-            'name' => 'required',
-            'category' => 'required',
-            'price' => 'required|numeric',
-            'description' => 'nullable',
-            'image_url' => 'nullable'
-        ]);
-
-        $product->update([
-            'name' => $request->name,
-            'category' => $request->category,
-            'price' => $request->price,
-            'description' => $request->description,
-            'image_url' => $request->image_url,
-        ]);
-
-        return response()->json([
-            'message' => 'Product updated successfully!',
-            'data' => $product
-        ], 200);
+        
+        $product = Product::findOrFail($id);
+        $product->update($request->all());
+        
+        return response()->json(['message' => 'Product updated']);
     }
-
-    // DELETE product
-    public function destroy($id)
+    
+    public function destroy(Request $request, $id)
     {
-        $product = Product::find($id);
-
-        if (!$product) {
-            return response()->json(['message' => 'Product not found'], 404);
+        $user = $this->verifyToken($request);
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
-
-        $product->delete();
-
-        return response()->json(['message' => 'Product deleted successfully'], 200);
+        
+        Product::findOrFail($id)->delete();
+        return response()->json(['message' => 'Product deleted']);
     }
 }

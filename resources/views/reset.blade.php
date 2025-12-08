@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Reset Password</title>
-    <link rel="stylesheet" href="auth.css">
+
+    {{-- CSS --}}
+    <link rel="stylesheet" href="{{ asset('auth.css') }}">
 </head>
 <body>
 
     <div class="card">
-        <img src="logo.svg" class="logo">
+        <img src="{{ asset('logo.svg') }}" class="logo">
 
         <h2 style="text-align:center;">Enter Your New Password</h2>
 
@@ -23,15 +25,15 @@
             <label>New Password</label>
             <input type="password" id="reset_new_password" required>
 
-            <!-- IMPORTANT: زر submit -->
             <button type="submit" class="btn">Reset Password</button>
 
             <div class="links">
-                <p><a href="login.html">Back to Login</a></p>
+                <p><a href="{{ url('/login') }}">Back to Login</a></p>
             </div>
         </form>
     </div>
 
-    <script src="app.js"></script>
+    {{-- JS --}}
+    <script src="{{ asset('app.js') }}"></script>
 </body>
 </html>
